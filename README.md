@@ -45,7 +45,6 @@ Create a `dataset` folder under the ROOT directory, then download the dataset fr
 
 **NOTE:** 
 - We train all our models using single V100 GPU.
-- The SNUNet-CD pre-trained models can be download [here](https://drive.google.com/drive/folders/1Oh-_3rWqtlx3oia5aB0t0ni-c5iZvw1-?usp=drive_link).
 
 #### Run
 
