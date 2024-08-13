@@ -84,7 +84,7 @@ The rows are as follows: (a-d) Wildfires (California, USA); (e-h) Hurricanes (Te
 We present representative cases and their evaluation results using the 2023 Türkiye earthquake dataset, freely provided by Maxar, to demonstrate our method's applicability to recent real-world disasters.
 This dataset includes 1,648 pairs of pre- and post-disaster images.
 
-<div style="width: 80%; height: 80%">
+<div align="center"; style="width: 80%; height: 80%">
   
   ![](./images/case_study_all.png)
   
