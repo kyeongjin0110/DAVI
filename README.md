@@ -73,7 +73,7 @@ python main.py \
 We provide an additional qualitative analysis of the impact of each component within the proposed method on wildfires, hurricanes, and tsunamis.
 The rows are as follows: (a-d) Wildfires (California, USA); (e-h) Hurricanes (Texas, USA); (i-l) Tsunamis (Sulawesi, Indonesia). Cases that benefits from image segmentation foundation model are highlighted with the blue box; Cases that benefits from refinement process are highlighted with the yellow box.
 
-<div style="width: 80%; height: 80%">
+<div style="width: 70%; height: 70%">
   
   ![](./images/qualitative_analysis_full.png)
   
@@ -84,7 +84,7 @@ The rows are as follows: (a-d) Wildfires (California, USA); (e-h) Hurricanes (Te
 We present representative cases and their evaluation results using the 2023 Türkiye earthquake dataset, freely provided by Maxar, to demonstrate our method's applicability to recent real-world disasters.
 This dataset includes 1,648 pairs of pre- and post-disaster images.
 
-<div align="center"; style="width: 80%; height: 80%">
+<div align="center"; style="width: 60%; height: 60%">
   
   ![](./images/case_study_all.png)
   
