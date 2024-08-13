@@ -39,7 +39,7 @@ pip install -r requirements.txt
 ### Dataset
 
 We evaluate the proposed network on benchmark dataset, xBD. 
-xBD is the largest building damage assessment dataset to date, containing ~700,000 building annotations across over 5,000 km^2 of imagery from 15 countries.
+xBD is the largest building damage assessment dataset to date, containing 700,000 building annotations across over 5,000 km^2 of imagery from 15 countries.
 Create a `dataset` folder under the ROOT directory, then download the dataset from [xBD]([https://filebox.ece.vt.edu/~ylzou/summer2020pseudoseg/pascal_voc_seg.tar](https://xview2.org/dataset)), and extract them in `dataset` folder.
 
 
