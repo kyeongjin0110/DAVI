@@ -71,7 +71,7 @@ The rows are as follows: (a-d) Wildfires (California, USA); (e-h) Hurricanes (Te
 
 <div style="width: 80%; height: 80%">
   
-  ![](.images/qualitative_analysis_full.png.png)
+  ![](.images/qualitative_analysis_full.png)
   
 </div>
 
