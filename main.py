@@ -42,7 +42,6 @@ def get_args():
     parser.add_argument('--run_name', type=str, default='test', help='save path for trained model')
     parser.add_argument('--pretrained', type=str, default='cnn_based_pretrained_xBD', help='path for pre-trained model')
     parser.add_argument('--seed', type=int, default=777, help='seed')
-    parser.add_argument('--option', type=int, default=7, help='option for ablations')
     parser.add_argument('--gpu', type=int, default=0, help='option for gpu')
     
     parser.add_argument('--patch_size', type=int, default=256, help='input patch size for training')
@@ -57,7 +56,7 @@ def get_args():
     parser.add_argument('--learning_rate', type=float, default=1e-5, help='learning rate used in training') # 1e-6
 
     parser.add_argument('--dataset', type=str, default='xBD', help='type of dataset')
-    parser.add_argument('--dataset_dir', type=str, default='../../../data/delta/xBD_ori/geotiffs/tier1', help='directory for dataset')
+    parser.add_argument('--dataset_dir', type=str, default='./dataset', help='directory for dataset')
     parser.add_argument('--source_disaster', type=str, default='palu-tsunami', help='source disaster type')
     parser.add_argument('--target_disaster', type=str, default='palu-tsunami', help='target disaseter type') 
     

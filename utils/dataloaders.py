@@ -34,17 +34,9 @@ class xBD(data.Dataset):
         set_list = set_name.split('/')
         self.aug = aug
         self.sam = sam
-        
-        init_dataset_dir = dataset_dir
 
         self.pre_img_list = []
         for dir_name in set_list:
-            
-            if dir_name == 'sunda-tsunami' or dir_name == 'lower-puna-volcano' or dir_name == 'nepal-flooding' or dir_name == 'pinery-bushfire' or dir_name == 'portugal-wildfire' or dir_name == 'woolsey-fire':
-                dataset_dir = dataset_dir.replace('tier1', 'tier3')
-            else:
-                dataset_dir = init_dataset_dir
-                
             img_path = os.path.join(dataset_dir, 'images_256/{}'.format(dir_name))
             pre_img_list_temp = glob.glob(img_path + '/*_pre_*')
             self.pre_img_list += pre_img_list_temp

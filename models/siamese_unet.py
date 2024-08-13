@@ -18,72 +18,6 @@ def Norm2d(in_channels):
     normalization_layer = layer(in_channels)
     return normalization_layer
 
-
-    
-    
-class BlockB(nn.Module):
-    def __init__(self, in_feat, out_feat):
-        super(BlockB, self).__init__()
-
-        self.layers = nn.Sequential(
-            nn.Conv2d(in_feat, 256, kernel_size=4, stride=2, bias=False),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.Flatten(),
-            nn.Linear(57600, 1024),
-            nn.BatchNorm1d(1024),
-            nn.ReLU(),
-            nn.Linear(1024, out_feat)
-        )
-
-    def forward(self, x):
-
-        x = self.layers(x)
-        
-        return x
-
-
-    
-class BlockC(nn.Module):
-    def __init__(self, in_feat, out_feat, p):
-        super(BlockC, self).__init__()
-
-        self.layers1 = nn.Sequential(
-            nn.Conv2d(in_feat, p, kernel_size=1, bias=False),
-            nn.BatchNorm2d(p),
-            nn.ReLU(),
-            nn.Conv2d(p, p, kernel_size=1, bias=False),
-        )
-        self.layers2 = nn.Conv2d(in_feat, p, kernel_size=1, bias=False)
-        self.layers3 = nn.Conv2d(p, p, kernel_size=1, bias=False)
-
-    def forward(self, x):
-
-        res_x = self.layers2(x)
-        x = self.layers1(x)
-        x = self.layers3(x + res_x)
-        
-        return x
-
-    
-    
-class BlockD(nn.Module):
-    def __init__(self, in_feat, out_feat, p):
-        super(BlockD, self).__init__()
-
-        self.layers1 = nn.Sequential(
-            nn.Linear(in_feat, p),
-            nn.BatchNorm1d(p),
-            nn.ReLU()
-        )
-
-    def forward(self, x):
-
-        x = self.layers1(x)
-        
-        return x
-    
-    
     
 class Self_Attn(nn.Module):
     def __init__(self, num_class=2, attention_dim=128, is_training=True, linformer=True, valid_mask=None, factor=8, downsample_type='nearest'):
@@ -97,7 +31,6 @@ class Self_Attn(nn.Module):
         self.factor = factor
         self.downsample_type = downsample_type
 
-#         self.conv1 = nn.Conv2d(conv_layer_merged.shape[1], attention_dim, kernel_size=1, bias=False)
         self.conv1 = nn.Conv2d(128, attention_dim, kernel_size=1, bias=False)
         self.conv2 = nn.Conv2d(2, self.num_class, kernel_size=1, bias=False)
         
@@ -114,7 +47,6 @@ class Self_Attn(nn.Module):
         conv_layer_merged = torch.cat(conv_layer_list, dim=1)
         conv_layer_merged = conv_layer_merged.detach()
         score = logits.detach()
-#         value_dim = score.shape[-1]
         value_dim = score.shape[1]
 
         if self.downsample_type == 'bilinear':
@@ -162,14 +94,9 @@ class Self_Attn(nn.Module):
         if value_dim != self.num_class:
             bg = 2 - torch.max(att_score, dim=1, keepdim=True)[0]
             att_score = torch.cat([bg, att_score], dim=1)
-#         print(att_score.shape[1])
-#         assert(0)
+            
         out_att_logits = self.bn1(self.conv2(att_score))
-
-#         print(out_att_logits)
-#         print(out_att_logits.shape) # [8, 2, 64, 64]
         return out_att_logits
-
 
 
 class GANet_Conv(nn.Module):
@@ -244,7 +171,6 @@ class GANet_Conv(nn.Module):
         return x1d
 
     
-
 class conv_block_nested(nn.Module):
     def __init__(self, in_ch, mid_ch, out_ch):
         super(conv_block_nested, self).__init__()
@@ -266,7 +192,6 @@ class conv_block_nested(nn.Module):
         return output
 
 
-    
 class up(nn.Module):
     def __init__(self, in_ch, bilinear=False):
         super(up, self).__init__()
@@ -283,7 +208,6 @@ class up(nn.Module):
         x = self.up(x)
         return x
 
-    
 
 class ChannelAttention(nn.Module):
     def __init__(self, in_channels, ratio = 16):
@@ -304,6 +228,7 @@ class ChannelAttention(nn.Module):
 def default(val, def_val):
     return def_val if val is None else val    
     
+    
 def singleton(cache_key):
     def inner_fn(fn):
         @wraps(fn)
@@ -318,19 +243,20 @@ def singleton(cache_key):
         return wrapper
     return inner_fn
 
+
 def get_module_device(module):
     return next(module.parameters()).device
+
 
 def set_requires_grad(model, val):
     for p in model.parameters():
         p.requires_grad = val
 
+        
 def MaybeSyncBatchnorm(is_distributed = None):
     is_distributed = default(is_distributed, dist.is_initialized() and dist.get_world_size() > 1)
     return nn.SyncBatchNorm if is_distributed else nn.BatchNorm1d
 
-
-    
 
 class EMA():
     def __init__(self, beta):
@@ -342,8 +268,7 @@ class EMA():
             return new
         return old * self.beta + (1 - self.beta) * new
 
-    
-    
+
 def update_moving_average(ema_updater, ma_model, current_model):
     for current_params, ma_params in zip(current_model.parameters(), ma_model.parameters()):
         old_weight, up_weight = ma_params.data, current_params.data
@@ -357,7 +282,6 @@ def MLP(dim, projection_size, hidden_size=4096, sync_batchnorm=None):
         nn.ReLU(inplace=True),
         nn.Linear(hidden_size, projection_size)
     )
-
 
     
 class SNUNet_ECAM(nn.Module):
@@ -433,7 +357,6 @@ class SNUNet_ECAM(nn.Module):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
                 
-   
     def forward(self, xA, xB):
         
         '''xA'''
@@ -521,4 +444,3 @@ class SNUNet_ECAM(nn.Module):
             return (out, class_output, score_map)
 
         return (out, class_output)
-    

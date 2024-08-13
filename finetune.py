@@ -254,30 +254,28 @@ def train(
         
         print(epoch_str)
         
-        if opt.option != 1:
-        
-            model.train()
-            model_t.eval()
+        model.train()
+        model_t.eval()
 
-            global_step += 1
-            train_acc_mean, train_P, train_R, train_F1 = train_epoch(
-                model,
-                model_t,
-                train_loader,
-                val_loader,
-                optimizer,
-                scheduler,
-                loss_list,
-                global_step,
-                epoch,
-                logging,
-                opt,
-            )
-            
-            mean_train_metrics = f"(\'cd_losses\': -1, \'cd_corrects\': {train_acc_mean}, \'cd_precisions\': {train_P}, \'cd_recalls\': {train_R}, \'cd_f1scores\': {train_F1}, \'learning_rate\': -1)"
+        global_step += 1
+        train_acc_mean, train_P, train_R, train_F1 = train_epoch(
+            model,
+            model_t,
+            train_loader,
+            val_loader,
+            optimizer,
+            scheduler,
+            loss_list,
+            global_step,
+            epoch,
+            logging,
+            opt,
+        )
 
-            logging.info("EPOCH {} TRAIN METRICS".format(epoch) + str(mean_train_metrics))
-            log += f'EPOCH {epoch} TRAIN METRICS' + str(mean_train_metrics) + '\n'
+        mean_train_metrics = f"(\'cd_losses\': -1, \'cd_corrects\': {train_acc_mean}, \'cd_precisions\': {train_P}, \'cd_recalls\': {train_R}, \'cd_f1scores\': {train_F1}, \'learning_rate\': -1)"
+
+        logging.info("EPOCH {} TRAIN METRICS".format(epoch) + str(mean_train_metrics))
+        log += f'EPOCH {epoch} TRAIN METRICS' + str(mean_train_metrics) + '\n'
 
         if epoch+1 == 50:
             torch.save(model, opt.run_dir+'/checkpoint_epoch_'+str(epoch)+'.pt')
